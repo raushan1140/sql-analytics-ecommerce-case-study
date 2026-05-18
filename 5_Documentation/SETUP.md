@@ -1,6 +1,6 @@
-# 🔧 Setup Instructions
+# 🔧 Setup Instructions - Supabase Edition
 
-Complete guide to set up and run this SQL Analytics project.
+Complete guide to set up and run this SQL Analytics project using **Supabase** (PostgreSQL cloud).
 
 ---
 
@@ -11,7 +11,8 @@ Before starting, ensure you have:
 - ✅ A computer (Windows, Mac, or Linux)
 - ✅ Internet connection
 - ✅ A web browser
-- ✅ No local database installation needed!
+- ✅ Free Supabase account
+- ✅ **No local installation required!** ☁️
 
 ---
 
@@ -40,73 +41,130 @@ Before starting, ensure you have:
 
 ---
 
-## 🗄️ Option 3: Run Queries Yourself (30 Minutes)
+## ☁️ Option 3: Run Queries in Supabase (Recommended - 30 Minutes)
 
-**For analysts or data scientists who want to execute queries:**
+**This project was built with Supabase. Follow these steps to replicate the exact setup:**
 
-### Step 1: Download Dataset
-- Go to: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
-- Click **"Download"**
-- Extract CSV files to your computer
-- **Note:** You'll need a Kaggle account (free)
-
-### Step 2: Create Supabase Project
+### Step 1: Create Supabase Account
 1. Go to: https://supabase.com
 2. Click **"Start Your Project"**
-3. Sign up with email/GitHub (free tier is enough)
+3. Sign up with:
+   - GitHub account (easiest), OR
+   - Email address
 4. Verify your email
-5. Create new project:
-   - **Project Name:** `ecommerce-analytics` (or your choice)
-   - **Password:** Create a strong password
+5. Skip email verification if prompted
+
+### Step 2: Create New Supabase Project
+1. Dashboard → Click **"New Project"**
+2. Fill in:
+   - **Project Name:** `ecommerce-analytics`
+   - **Database Password:** Create strong password (save it!)
    - **Region:** Choose closest to you
-6. Wait for project to initialize (2-3 minutes)
+   - **Pricing Plan:** Free tier (sufficient)
+3. Click **"Create New Project"**
+4. Wait 2-3 minutes for initialization ⏳
 
 ### Step 3: Create Database Tables
-1. In Supabase, go to **SQL Editor**
+
+1. In Supabase dashboard, go to **"SQL Editor"** (left sidebar)
 2. Click **"New Query"**
-3. Open file: `3_ERD_and_Schema/Schema.sql`
-4. Copy all SQL code
+3. Open file on your computer: `3_ERD_and_Schema/Schema.sql`
+4. Copy all SQL code (Ctrl+A → Ctrl+C)
 5. Paste into Supabase SQL Editor
-6. Click **"Run"** button
-7. Wait for completion ✅
+6. Click **"Run"** button (blue triangle icon)
+7. Wait for completion ✅ (should see green checkmarks)
 
-### Step 4: Import CSV Files
-1. In Supabase, go to **Table Editor**
-2. For each CSV file in `1_Dataset/`:
-   - Click **"Create New Table"**
-   - Select **"Import Data"**
-   - Choose corresponding CSV file
-   - Click **"Import"**
-3. Import all 9 files in this order:
-   - customers
-   - products
-   - sellers
-   - orders
-   - order_items
-   - order_payments
-   - order_reviews
-   - category_translation
-   - geolocation
+**Expected result:** 9 tables created successfully
 
-### Step 5: Run Queries
-1. In Supabase SQL Editor, create new query
-2. Open SQL file from `2_SQL_Queries/` folder
-3. Copy query code
-4. Paste into Supabase
-5. Click **"Run"**
-6. View results ✅
+### Step 4: Import CSV Files to Database
+
+1. Go to **"Table Editor"** (left sidebar)
+2. For EACH CSV file in `1_Dataset/` folder:
+
+   **For Customers:**
+   - Click **"+"** button → **"Import Data"**
+   - Choose file: `1_Dataset/olist_customers_dataset.csv`
+   - Click **"Import"** → Wait ✅
+
+   **For Products:**
+   - Click **"+"** button → **"Import Data"**
+   - Choose file: `1_Dataset/olist_products_dataset.csv`
+   - Click **"Import"** → Wait ✅
+
+   **Repeat for all 9 files** (in any order):
+   - olist_customers_dataset.csv
+   - olist_products_dataset.csv
+   - olist_sellers_dataset.csv
+   - olist_orders_dataset.csv
+   - olist_order_items_dataset.csv
+   - olist_order_payments_dataset.csv
+   - olist_order_reviews_dataset.csv
+   - product_category_name_translation.csv
+   - olist_geolocation_dataset.csv
+
+**Note:** Files import best when no foreign key constraints are violated. Import in order above if errors occur.
+
+### Step 5: Verify Data Import
+
+In SQL Editor, run this query to verify all tables have data:
+
+```sql
+SELECT 'customers' as table_name, COUNT(*) as row_count FROM customers
+UNION ALL
+SELECT 'orders', COUNT(*) FROM orders
+UNION ALL
+SELECT 'order_items', COUNT(*) FROM order_items
+UNION ALL
+SELECT 'order_payments', COUNT(*) FROM order_payments
+UNION ALL
+SELECT 'order_reviews', COUNT(*) FROM order_reviews
+UNION ALL
+SELECT 'products', COUNT(*) FROM products
+UNION ALL
+SELECT 'sellers', COUNT(*) FROM sellers
+UNION ALL
+SELECT 'category_translation', COUNT(*) FROM category_translation
+UNION ALL
+SELECT 'geolocation', COUNT(*) FROM geolocation;
+```
+
+**Expected results:**
+- customers: 99,441
+- orders: 99,441
+- order_items: 112,650
+- order_payments: 103,886
+- order_reviews: 98,979
+- products: 32,951
+- sellers: 3,095
+- category_translation: 71
+- geolocation: 29,945
+
+### Step 6: Run Analytics Queries
+
+1. Go to **"SQL Editor"**
+2. Click **"New Query"**
+3. Open any SQL file from `2_SQL_Queries/` folder
+4. Copy query code
+5. Paste into Supabase SQL Editor
+6. Click **"Run"**
+7. View results in bottom panel ✅
+
+**Example queries to try:**
+- Query_01_Revenue_by_Month.sql
+- Query_05_Retention_Rate.sql
+- Query_15_Cohort_Analysis.sql
 
 **Time required:** 30-45 minutes
 
 ---
 
-## 🛠️ Option 4: Local Database Setup (Advanced)
+## 💻 Option 4: Local PostgreSQL Setup (Advanced)
 
-**For advanced users who want local PostgreSQL:**
+**For developers who prefer local database:**
 
 ### Prerequisites
 - PostgreSQL 12+ installed
-- pgAdmin or DBeaver (optional but helpful)
+- pgAdmin or DBeaver (optional)
 - 2GB free disk space
 
 ### Setup Steps
@@ -114,12 +172,12 @@ Before starting, ensure you have:
 1. **Install PostgreSQL**
    ```bash
    # Windows
-   Download from: https://www.postgresql.org/download/windows/
+   Download: https://www.postgresql.org/download/windows/
    
    # macOS
    brew install postgresql
    
-   # Linux (Ubuntu/Debian)
+   # Linux (Ubuntu)
    sudo apt-get install postgresql postgresql-contrib
    ```
 
@@ -144,7 +202,7 @@ Before starting, ensure you have:
    psql ecommerce_analytics < 2_SQL_Queries/Query_01_Revenue_by_Month.sql
    ```
 
-**Time required:** 45-60 minutes + PostgreSQL installation time
+**Time required:** 45-60 minutes + PostgreSQL installation
 
 ---
 
